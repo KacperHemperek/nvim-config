@@ -11,9 +11,19 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+    { '<leader>e', ':Neotree toggle reveal<CR>', desc = 'Toggle NeoTree on currently open file', silent = true },
   },
+
   opts = {
+    event_handlers = {
+      {
+        event = 'file_opened',
+        handler = function()
+          -- Automatically close Neo-tree after opening a file
+          require('neo-tree.command').execute { action = 'close' }
+        end,
+      },
+    },
     filesystem = {
       window = {
         mappings = {
