@@ -232,10 +232,16 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
+  -- Here are all my plugins that were additinally installed
   {
     'vhyrro/luarocks.nvim',
     priority = 1000,
     config = true,
+  },
+  {
+    'github/copilot.vim',
+    cmd = 'Copilot',
+    build = ':Copilot auth',
   },
 
   -- NOTE: Plugins can also be added by using a table,
@@ -647,7 +653,7 @@ require('lazy').setup({
       local formatters = {
         'stylua', -- Used to format Lua code
         'autopep8', -- Used to format Python code
-        'prettier', -- Used to format TS, JS, and other things that relate to that like JSON
+        'prettierd', -- Used to format TS, JS, and other things that relate to that like JSON
       }
 
       -- Ensure the servers and tools above are installed
@@ -713,6 +719,10 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        typescript = { 'prettierd' },
+        javascript = { 'prettierd' },
+        json = { 'prettierd' },
+
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
