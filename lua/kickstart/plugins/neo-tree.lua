@@ -60,6 +60,7 @@ return {
             }, { prompt = 'Choose to copy to clipboard:' }, function(choice)
               if choice == nil then
                 vim.notify 'Cancelled copy'
+                return
               end
               local i = tonumber(choice:sub(1, 1))
               local result = results[i]
