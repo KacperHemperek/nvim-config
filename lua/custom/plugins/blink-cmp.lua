@@ -5,7 +5,7 @@ return {
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
-    signature = { enabled = true },
+    signature = { enabled = true, window = { border = 'rounded', scrollbar = false } },
     keymap = {
       ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
       ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
@@ -13,13 +13,16 @@ return {
       ['<S-Tab>'] = { 'select_prev', 'fallback' },
       ['<Enter>'] = { 'accept', 'fallback' },
       ['<C-Space>'] = { 'show', 'fallback' },
+      ['<C-k>'] = { 'show_documentation' },
     },
     completion = {
       list = { selection = { preselect = true, auto_insert = false } },
+      documentation = { window = { border = 'rounded', scrollbar = false } },
       menu = {
+        border = 'rounded',
+        scrollbar = false,
         draw = {
           columns = { { 'kind_icon' }, { 'label', 'label_description', 'kind', gap = 1 } },
-          -- columns = { { 'label', 'label_description', gap = 1 }, { 'kind_icon', 'kind' } },
           treesitter = { 'lsp' },
         },
       },
@@ -30,11 +33,17 @@ return {
       use_nvim_cmp_as_default = true,
     },
 
-    -- Default list of enabled providers defined so that you can extend it
-    -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
-      cmdline = {},
+      per_filetype = {
+        codecompanion = { 'codecompanion' },
+      },
+    },
+
+    -- Default list of enabled providers defined so that you can extend it
+    -- elsewhere in your config, without redefining it, due to `opts_extend`
+    cmdline = {
+      sources = {},
     },
   },
   opts_extend = { 'sources.default' },

@@ -410,9 +410,10 @@ require('lazy').setup({
 
       local formatters = {
         'stylua', -- Used to format Lua code
-        'autopep8', -- Used to format Python code
+        'black', -- Used to format Python code
         'prettierd', -- Used to format TS, JS, and other things that relate to that like JSON
         'xmlformatter', -- Used to format xml documents
+        'isort', -- Used to sort imports in Python code
       }
 
       -- Ensure the servers and tools above are installed
@@ -459,6 +460,11 @@ require('lazy').setup({
       },
     },
     opts = {
+      formatters = {
+        black = {
+          prepend_args = { '--fast' },
+        },
+      },
       notify_on_error = false,
       format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
@@ -472,7 +478,7 @@ require('lazy').setup({
           lsp_format_opt = 'fallback'
         end
         return {
-          timeout_ms = 500,
+          timeout_ms = 2000,
           lsp_format = lsp_format_opt,
         }
       end,
@@ -485,12 +491,41 @@ require('lazy').setup({
         json = { 'prettierd' },
         yaml = { 'prettierd' },
         xml = { 'xmlformatter' },
+        python = function(bufnr)
+          -- NOTE: This will prevent formatting in the following directories
+          local exclude = {
+            '~/Code/Work/aiprime/',
+          }
+          local function is_subpath(child, parent)
+            local real_child = vim.loop.fs_realpath(vim.fn.expand(child))
+            local real_parent = vim.loop.fs_realpath(vim.fn.expand(parent))
+            if not real_child or not real_parent then
+              return false
+            end
+            return real_child:sub(1, #real_parent) == real_parent
+          end
+
+          local curr_path = vim.api.nvim_buf_get_name(bufnr)
+
+          -- If the current file path is in any of the excluded paths then do not format it
+          for _, path in ipairs(exclude) do
+            if is_subpath(curr_path, path) then
+              return {}
+            end
+          end
+
+          return { 'isort', 'black' }
+        end,
       },
     },
   },
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    ft = { 'markdown', 'codecompanion' },
+  },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
@@ -508,7 +543,7 @@ require('lazy').setup({
     },
   },
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
@@ -516,6 +551,7 @@ require('lazy').setup({
   require 'custom.plugins.ufo',
   require 'custom.plugins.mini',
   require 'custom.plugins.lualine',
+  require 'custom.plugins.codecompanion',
   require 'kickstart.plugins.gitsigns',
   -- theme configuration is here for easy access
   require 'custom.theme.tokyo-night',
