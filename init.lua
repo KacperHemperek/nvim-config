@@ -83,9 +83,11 @@ require('lazy').setup({
     end,
   },
   {
-    'norcalli/nvim-colorizer.lua',
+    'brenoprata10/nvim-highlight-colors',
     config = function()
-      require('colorizer').setup({}, { mode = 'background' })
+      require('nvim-highlight-colors').setup {
+        enable_tailwind = true,
+      }
     end,
   },
 
@@ -554,7 +556,8 @@ require('lazy').setup({
   require 'custom.plugins.codecompanion',
   require 'kickstart.plugins.gitsigns',
   -- theme configuration is here for easy access
-  require 'custom.theme.tokyo-night',
+  -- require 'custom.theme.tokyo-night',
+  require 'custom.theme.kanso',
   -- require 'custom.theme.vague',
 }, {
   ui = {
