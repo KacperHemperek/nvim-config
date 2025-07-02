@@ -389,6 +389,7 @@ require('lazy').setup({
         ts_ls = {},
         gopls = {},
         yamlls = {},
+        bashls = {},
         lua_ls = {
           settings = {
             Lua = {
@@ -412,7 +413,8 @@ require('lazy').setup({
 
       local formatters = {
         'stylua', -- Used to format Lua code
-        'black', -- Used to format Python code
+        -- 'black', -- Used to format Python code
+        'ruff', -- Used to format Python code
         'prettierd', -- Used to format TS, JS, and other things that relate to that like JSON
         'xmlformatter', -- Used to format xml documents
         'isort', -- Used to sort imports in Python code
@@ -463,9 +465,10 @@ require('lazy').setup({
     },
     opts = {
       formatters = {
-        black = {
-          prepend_args = { '--fast' },
-        },
+        -- ruff = {},
+        -- black = {
+        --   prepend_args = { '--fast' },
+        -- },
       },
       notify_on_error = false,
       format_on_save = function(bufnr)
@@ -493,31 +496,32 @@ require('lazy').setup({
         json = { 'prettierd' },
         yaml = { 'prettierd' },
         xml = { 'xmlformatter' },
-        python = function(bufnr)
-          -- NOTE: This will prevent formatting in the following directories
-          local exclude = {
-            '~/Code/Work/aiprime/',
-          }
-          local function is_subpath(child, parent)
-            local real_child = vim.loop.fs_realpath(vim.fn.expand(child))
-            local real_parent = vim.loop.fs_realpath(vim.fn.expand(parent))
-            if not real_child or not real_parent then
-              return false
-            end
-            return real_child:sub(1, #real_parent) == real_parent
-          end
-
-          local curr_path = vim.api.nvim_buf_get_name(bufnr)
-
-          -- If the current file path is in any of the excluded paths then do not format it
-          for _, path in ipairs(exclude) do
-            if is_subpath(curr_path, path) then
-              return {}
-            end
-          end
-
-          return { 'isort', 'black' }
-        end,
+        python = { 'ruff_fix', 'ruff_format', 'isort' },
+        -- python = function(bufnr)
+        --   -- NOTE: This will prevent formatting in the following directories
+        --   local exclude = {
+        --     '~/Code/Work/aiprime/',
+        --   }
+        --   local function is_subpath(child, parent)
+        --     local real_child = vim.loop.fs_realpath(vim.fn.expand(child))
+        --     local real_parent = vim.loop.fs_realpath(vim.fn.expand(parent))
+        --     if not real_child or not real_parent then
+        --       return false
+        --     end
+        --     return real_child:sub(1, #real_parent) == real_parent
+        --   end
+        --
+        --   local curr_path = vim.api.nvim_buf_get_name(bufnr)
+        --
+        --   -- If the current file path is in any of the excluded paths then do not format it
+        --   for _, path in ipairs(exclude) do
+        --     if is_subpath(curr_path, path) then
+        --       return {}
+        --     end
+        --   end
+        --
+        --   return { 'ruff' }
+        -- end,
       },
     },
   },
@@ -559,25 +563,7 @@ require('lazy').setup({
   -- require 'custom.theme.tokyo-night',
   require 'custom.theme.kanso',
   -- require 'custom.theme.vague',
-}, {
-  ui = {
-    icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      require = '🌙',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
-    },
-  },
-})
+}, {})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
