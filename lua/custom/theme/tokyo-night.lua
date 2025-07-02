@@ -4,11 +4,11 @@ return {
   lazy = false,
   init = function()
     require('tokyonight').setup {
-      style = 'night',
+      style = 'day',
       on_colors = function() end,
       on_highlights = function() end,
       terminal_colors = true,
-      transparent = true,
+      -- transparent = true,
     }
     vim.cmd.colorscheme 'tokyonight'
   end,
