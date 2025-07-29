@@ -64,6 +64,11 @@ require('lazy').setup({
       })
 
       vim.g.copilot_no_tab_map = true
+      vim.g.copilot_filetypes = {
+        ['*'] = true, -- Enable for all filetypes by default
+        ['codecompanion'] = false, -- Disable for code companion chat
+        -- Add more filetypes you want to disable
+      }
     end,
   },
   {
