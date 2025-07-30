@@ -5,8 +5,8 @@ return {
   config = function()
     require('kanso').setup {
       bold = false,
-      transparent = true,
-      theme = 'zen',
+      transparent = false,
+      theme = 'ink',
       background = {
         dark = 'ink',
         light = 'pearl',
@@ -14,6 +14,5 @@ return {
     }
 
     vim.cmd 'colorscheme kanso'
-    vim.o.background = 'light'
   end,
 }
