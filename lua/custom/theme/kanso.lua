@@ -5,10 +5,10 @@ return {
   config = function()
     require('kanso').setup {
       bold = false,
-      transparent = false,
-      theme = 'ink',
+      transparent = true,
+      theme = 'zen',
       background = {
-        dark = 'ink',
+        dark = 'zen',
         light = 'pearl',
       },
     }

@@ -23,6 +23,18 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+  -- NOTE: Local plugins can be added with a path to the file
+  {
+    dir = vim.fn.stdpath 'config' .. '/lua/custom/plugins/auto-venv',
+    name = 'auto-venv',
+    config = function()
+      require('custom.plugins.auto-venv').setup {
+        enabled = true,
+        venv_names = { '.venv' },
+        debug = true,
+      }
+    end,
+  },
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   { 'tpope/vim-sleuth' }, -- Detect tabstop and shiftwidth automatically
 
@@ -566,7 +578,8 @@ require('lazy').setup({
   require 'kickstart.plugins.gitsigns',
   -- theme configuration is here for easy access
   -- require 'custom.theme.tokyo-night',
-  require 'custom.theme.kanso',
+  -- require 'custom.theme.kanso',
+  require 'custom.theme.everforest',
   -- require 'custom.theme.vague',
 }, {})
 
