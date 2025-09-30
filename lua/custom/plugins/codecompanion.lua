@@ -1,26 +1,33 @@
 return {
+  -- `adapters.<adapter_name>` and `adapters.opts` is deprecated, use `adapters.http.<adapter_name>` and `adapters.http.opts` instead.
+  -- Feature will be removed in CodeCompanion v18.0.0
   'olimorris/codecompanion.nvim',
   opts = {
-    adapters = {
-      copilot = function()
-        return require('codecompanion.adapters').extend('copilot', {
-          schema = {
-            model = {
-              default = 'claude-3.7-sonnet',
-            },
-          },
-        })
-      end,
-    },
+    -- adapters = {
+    --   http = {
+    --     copilot = function()
+    --       return require('codecompanion.adapters').extend('copilot', {
+    --         schema = {
+    --           model = {
+    --             default = 'gemini-2.5-pro',
+    --           },
+    --         },
+    --       })
+    --     end,
+    --   },
+    -- },
     strategies = {
       chat = {
-        adapter = 'copilot',
+        name = 'copilot',
+        model = 'claude-sonnet-4',
       },
       inline = {
-        adapter = 'copilot',
+        name = 'copilot',
+        model = 'claude-sonnet-4',
       },
       agent = {
-        adapter = 'copilot',
+        name = 'copilot',
+        model = 'claude-sonnet-4',
       },
     },
   },

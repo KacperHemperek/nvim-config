@@ -579,7 +579,8 @@ require('lazy').setup({
   -- theme configuration is here for easy access
   -- require 'custom.theme.tokyo-night',
   -- require 'custom.theme.kanso',
-  require 'custom.theme.everforest',
+  -- require 'custom.theme.everforest',
+  require 'custom.theme.rose-pine',
   -- require 'custom.theme.vague',
 }, {})
 
