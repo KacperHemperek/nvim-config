@@ -13,17 +13,25 @@ return {
       ['<S-Tab>'] = { 'select_prev', 'fallback' },
       ['<Enter>'] = { 'accept', 'fallback' },
       ['<C-Space>'] = { 'show', 'fallback' },
-      ['<C-k>'] = { 'show_documentation' },
     },
     completion = {
       list = { selection = { preselect = true, auto_insert = false } },
-      documentation = { window = { border = 'rounded', scrollbar = false } },
+      documentation = { auto_show_delay_ms = 0, auto_show = true, window = { border = 'rounded', scrollbar = false } },
       menu = {
         border = 'rounded',
         scrollbar = false,
         draw = {
           columns = { { 'kind_icon' }, { 'label', 'label_description', 'kind', gap = 1 } },
           treesitter = { 'lsp' },
+        },
+      },
+
+      accept = {
+        auto_brackets = {
+          kind_resolution = {
+            enabled = true,
+            blocked_filetypes = { 'typescriptreact', 'javascriptreact', 'html', 'xml', 'vue' },
+          },
         },
       },
     },
