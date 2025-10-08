@@ -14,6 +14,11 @@ vim.opt.showmode = false
 
 vim.o.winborder = 'rounded'
 
+vim.diagnostic.config {
+  virtual_text = true,
+  signs = true,
+}
+
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.

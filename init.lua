@@ -1,5 +1,11 @@
-require 'custom.options.keymaps'
 require 'custom.options.options'
+require 'custom.options.keymaps'
+
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function()
+    require('custom.options.keymaps').setup()
+  end,
+})
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -25,6 +31,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Local plugins can be added with a path to the file
   {
+
     dir = vim.fn.stdpath 'config' .. '/lua/custom/plugins/auto-venv',
     name = 'auto-venv',
     config = function()
@@ -41,7 +48,7 @@ require('lazy').setup({
   -- Here are all my plugins that were additinally installed
   {
     'famiu/bufdelete.nvim',
-    opts = {},
+
     config = function()
       local bufdelete = require 'bufdelete'
 
@@ -481,12 +488,6 @@ require('lazy').setup({
       },
     },
     opts = {
-      formatters = {
-        -- ruff = {},
-        -- black = {
-        --   prepend_args = { '--fast' },
-        -- },
-      },
       notify_on_error = false,
       format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
@@ -575,6 +576,7 @@ require('lazy').setup({
   require 'custom.plugins.mini',
   require 'custom.plugins.lualine',
   require 'custom.plugins.codecompanion',
+  require 'custom.plugins.diffview',
   require 'kickstart.plugins.gitsigns',
   -- theme configuration is here for easy access
   -- require 'custom.theme.tokyo-night',
