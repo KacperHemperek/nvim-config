@@ -1,4 +1,5 @@
 -- Neo-tree is a Neovim plugin to browse the file system
+--
 -- https://github.com/nvim-neo-tree/neo-tree.nvim
 
 return {
@@ -14,7 +15,27 @@ return {
     { '<leader>e', ':Neotree toggle reveal<CR>', desc = 'Toggle NeoTree on currently open file', silent = true },
   },
 
+  ---@module 'neo-tree'
+  ---@type neotree.Config?
   opts = {
+    default_component_configs = {
+      git_status = {
+        symbols = {
+          -- This just removes the clutter from the neotree status symbols
+          -- Change type
+          added = '',
+          deleted = '',
+          modified = '',
+          renamed = '',
+          -- Status type
+          untracked = '',
+          ignored = '',
+          unstaged = '',
+          staged = '',
+          conflict = '',
+        },
+      },
+    },
     event_handlers = {
       {
         event = 'file_opened',
@@ -28,7 +49,7 @@ return {
       filtered_items = {
         visible = true,
         hide_dotfiles = false,
-        hide_gitignored = true,
+        hide_gitignored = false,
       },
       window = {
         mappings = {
